@@ -1,69 +1,33 @@
-"use client";
-import React from "react";
+import Button from "@mui/material/Button";
+import Container from "@mui/material/Container";
+import Paper from "@mui/material/Paper";
+import Typography from "@mui/material/Typography";
 import Link from "next/link";
-import {
-  Container,
-  Typography,
-  TextField,
-  Button,
-  Box,
-  Paper,
-} from "@mui/material";
 
-export default function LoginPage() {
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // Add login logic here
-    console.log("Logging in...");
-  };
-
+const HomePage = () => {
   return (
-    <Container component="main" maxWidth="xs" sx={{ mt: 8 }}>
-      <Paper elevation={3} sx={{ p: 4, borderRadius: 2 }}>
-        <Typography component="h1" variant="h5" align="center" gutterBottom>
-          Login
+    <Container component="main" maxWidth="md" sx={{ mt: 8 }}>
+      <Paper
+        elevation={3}
+        sx={{
+          p: 4,
+          borderRadius: 2,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 2,
+        }}
+      >
+        <Typography variant="h4" color="primary">
+          Bem vindo ao FIPP TRUCO
         </Typography>
-        <form onSubmit={handleLogin}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email"
-            name="email"
-            autoComplete="email"
-            autoFocus
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Senha"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-          />
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            sx={{ mt: 3, mb: 2 }}
-          >
-            Login
-          </Button>
-          <Box display="flex" justifyContent="center">
-            <Link href="/register" passHref>
-              <Button variant="text" color="primary">
-                Não possui uma conta? Registre-se
-              </Button>
-            </Link>
-          </Box>
-        </form>
+        <Link href="/login" passHref>
+          <Button variant="contained">Login</Button>
+        </Link>
       </Paper>
     </Container>
   );
-}
+};
+
+export default HomePage;
