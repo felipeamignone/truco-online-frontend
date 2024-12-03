@@ -2,17 +2,17 @@ export default class HttpClient {
   #baseUrl: string;
 
   constructor(baseUrl?: string) {
-    this.#baseUrl = baseUrl || (process.env.BASE_API_URL as string);
+    this.#baseUrl = baseUrl || (process.env.NEXT_PUBLIC_BASE_API_URL as string);
   }
 
   get = (path: string, query?: string) =>
-    fetch(`${this.#baseUrl}/${path}${query && "/" + query}`, {
+    fetch(`${this.#baseUrl}/${path}${query ? "/" + query : ""}`, {
       method: "GET",
       credentials: "include",
     });
 
   post = (path: string, body: unknown, query?: string) =>
-    fetch(`${this.#baseUrl}/${path}${query && "/" + query}`, {
+    fetch(`${this.#baseUrl}/${path}${query ? "/" + query : ""}`, {
       method: "POST",
       credentials: "include",
       headers: {
@@ -22,7 +22,7 @@ export default class HttpClient {
     });
 
   put = (path: string, body: unknown, query?: string) =>
-    fetch(`${this.#baseUrl}/${path}${query && "/" + query}`, {
+    fetch(`${this.#baseUrl}/${path}${query ? "/" + query : ""}`, {
       method: "PUT",
       credentials: "include",
       headers: {
@@ -32,7 +32,7 @@ export default class HttpClient {
     });
 
   patch = (path: string, body: unknown, query?: string) =>
-    fetch(`${this.#baseUrl}/${path}${query && "/" + query}`, {
+    fetch(`${this.#baseUrl}/${path}${query ? "/" + query : ""}`, {
       method: "PATCH",
       credentials: "include",
       headers: {
@@ -42,7 +42,7 @@ export default class HttpClient {
     });
 
   delete = (path: string, query?: string) =>
-    fetch(`${this.#baseUrl}/${path}${query && "/" + query}`, {
+    fetch(`${this.#baseUrl}/${path}${query ? "/" + query : ""}`, {
       method: "DELETE",
       credentials: "include",
     });

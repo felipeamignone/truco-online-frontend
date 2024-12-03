@@ -9,13 +9,20 @@ import {
   Box,
   Paper,
 } from "@mui/material";
+import UseRegister from "./useRegister";
+import { FormValues } from "./types";
+import { Controller, useForm } from "react-hook-form";
 
 const RegisterPage = () => {
-  const handleRegister = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // Add login logic here
-    console.log("Logging in...");
-  };
+  const { handleRegister } = UseRegister();
+
+  const {
+    control,
+    handleSubmit,
+    clearErrors,
+    formState: { errors },
+  } = useForm<FormValues>();
+  const onSubmit = handleSubmit((data) => handleRegister(data));
 
   return (
     <Container component="main" maxWidth="xs" sx={{ mt: 8 }}>
@@ -23,28 +30,67 @@ const RegisterPage = () => {
         <Typography component="h1" variant="h5" align="center" gutterBottom>
           Cadastro
         </Typography>
-        <form onSubmit={handleRegister}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email"
-            name="email"
-            autoComplete="email"
-            autoFocus
+        <form onSubmit={onSubmit}>
+          <Controller
+            name="name"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                id="name"
+                label="Nome"
+                autoComplete="name"
+                autoFocus
+                onFocus={() => clearErrors("name")}
+                error={Boolean(errors.name)}
+                helperText={Boolean(errors.name) && "Campo obrigatório"}
+              />
+            )}
           />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
+
+          <Controller
+            name="email"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                id="email"
+                label="Email"
+                autoComplete="email"
+                onFocus={() => clearErrors("email")}
+                error={Boolean(errors.email)}
+                helperText={Boolean(errors.email) && "Campo obrigatório"}
+              />
+            )}
+          />
+          <Controller
             name="password"
-            label="Senha"
-            type="password"
-            id="password"
-            autoComplete="current-password"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                name="password"
+                label="Senha"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                onFocus={() => clearErrors("password")}
+                error={Boolean(errors.password)}
+                helperText={Boolean(errors.password) && "Campo obrigatório"}
+              />
+            )}
           />
           <Button
             type="submit"
@@ -53,16 +99,16 @@ const RegisterPage = () => {
             color="primary"
             sx={{ mt: 3, mb: 2 }}
           >
-            Login
+            Cadastrar
           </Button>
-          <Box display="flex" justifyContent="center">
-            <Link href="/cadastro" passHref>
-              <Button variant="text" color="primary">
-                Não possui uma conta? Registre-se
-              </Button>
-            </Link>
-          </Box>
         </form>
+        <Box display="flex" justifyContent="center">
+          <Link href="/login" passHref>
+            <Button variant="text" color="primary">
+              Já possui uma conta? Clique aqui para entrar
+            </Button>
+          </Link>
+        </Box>
       </Paper>
     </Container>
   );
