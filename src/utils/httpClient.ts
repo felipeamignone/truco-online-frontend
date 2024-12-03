@@ -9,9 +9,9 @@ export default class HttpClient {
     fetch(`${this.#baseUrl}/${path}${query ? "/" + query : ""}`, {
       method: "GET",
       credentials: "include",
-    });
+    }).then((r) => r.json());
 
-  post = (path: string, body: unknown, query?: string) =>
+  post = (path: string, body?: unknown, query?: string) =>
     fetch(`${this.#baseUrl}/${path}${query ? "/" + query : ""}`, {
       method: "POST",
       credentials: "include",
@@ -19,7 +19,7 @@ export default class HttpClient {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
-    });
+    }).then((r) => r.json());
 
   put = (path: string, body: unknown, query?: string) =>
     fetch(`${this.#baseUrl}/${path}${query ? "/" + query : ""}`, {
@@ -29,7 +29,7 @@ export default class HttpClient {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
-    });
+    }).then((r) => r.json());
 
   patch = (path: string, body: unknown, query?: string) =>
     fetch(`${this.#baseUrl}/${path}${query ? "/" + query : ""}`, {
@@ -39,11 +39,11 @@ export default class HttpClient {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(body),
-    });
+    }).then((r) => r.json());
 
   delete = (path: string, query?: string) =>
     fetch(`${this.#baseUrl}/${path}${query ? "/" + query : ""}`, {
       method: "DELETE",
       credentials: "include",
-    });
+    }).then((r) => r.json());
 }

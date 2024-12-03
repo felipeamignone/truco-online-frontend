@@ -21,7 +21,13 @@ const RegisterPage = () => {
     handleSubmit,
     clearErrors,
     formState: { errors },
-  } = useForm<FormValues>();
+  } = useForm<FormValues>({
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+    },
+  });
   const onSubmit = handleSubmit((data) => handleRegister(data));
 
   return (

@@ -9,13 +9,26 @@ import {
   Box,
   Paper,
 } from "@mui/material";
+import useLogin from "./useLogin";
+import { Controller, useForm } from "react-hook-form";
+import { FormValues } from "./types";
 
 const LoginPage = () => {
-  const handleLogin = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    // Add login logic here
-    console.log("Logging in...");
-  };
+  const { handleLogin } = useLogin();
+
+  const {
+    control,
+    formState: { errors },
+    handleSubmit,
+    clearErrors,
+  } = useForm<FormValues>({
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = handleSubmit((data) => handleLogin(data));
 
   return (
     <Container component="main" maxWidth="xs" sx={{ mt: 8 }}>
@@ -23,28 +36,46 @@ const LoginPage = () => {
         <Typography component="h1" variant="h5" align="center" gutterBottom>
           Login
         </Typography>
-        <form onSubmit={handleLogin}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="Email"
+        <form onSubmit={onSubmit}>
+          <Controller
             name="email"
-            autoComplete="email"
-            autoFocus
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                id="email"
+                label="Email"
+                autoComplete="email"
+                onFocus={() => clearErrors("email")}
+                error={Boolean(errors.email)}
+                helperText={Boolean(errors.email) && "Campo obrigatório"}
+              />
+            )}
           />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
+          <Controller
             name="password"
-            label="Senha"
-            type="password"
-            id="password"
-            autoComplete="current-password"
+            control={control}
+            rules={{ required: true }}
+            render={({ field }) => (
+              <TextField
+                {...field}
+                variant="outlined"
+                margin="normal"
+                fullWidth
+                name="password"
+                label="Senha"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                onFocus={() => clearErrors("password")}
+                error={Boolean(errors.password)}
+                helperText={Boolean(errors.password) && "Campo obrigatório"}
+              />
+            )}
           />
           <Button
             type="submit"
@@ -53,16 +84,16 @@ const LoginPage = () => {
             color="primary"
             sx={{ mt: 3, mb: 2 }}
           >
-            Login
+            Entrar
           </Button>
-          <Box display="flex" justifyContent="center">
-            <Link href="/cadastro" passHref>
-              <Button variant="text" color="primary">
-                Não possui uma conta? Registre-se
-              </Button>
-            </Link>
-          </Box>
         </form>
+        <Box display="flex" justifyContent="center">
+          <Link href="/cadastro" passHref>
+            <Button variant="text" color="primary">
+              Não possui uma conta? Registre-se
+            </Button>
+          </Link>
+        </Box>
       </Paper>
     </Container>
   );
