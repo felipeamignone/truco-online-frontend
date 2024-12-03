@@ -3,10 +3,12 @@
 import useAuthContext from "@/contexts/authContext";
 import { FormValues } from "./types";
 import HttpClient from "@/utils/httpClient";
+import { useRouter } from "next/navigation";
 
 const useLogin = () => {
   const { setUserLogged, resetState } = useAuthContext();
   const httpClient = new HttpClient();
+  const router = useRouter()
 
   const handleLogin = async (data: FormValues) => {
     try {
@@ -14,6 +16,7 @@ const useLogin = () => {
 
       if (user) {
         setUserLogged(user);
+        router.push('/salas')
       }
     } catch (error: any) {
       if (error.message) alert(error.message);
