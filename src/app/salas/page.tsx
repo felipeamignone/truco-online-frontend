@@ -14,6 +14,7 @@ const RoomsPage = () => {
     handleOpenCreateDialog,
     handleCloseCreateDialog,
     handleCreateRoom,
+    handleEnterRoom,
   } = useRoom();
 
   useEffect(() => {
@@ -30,7 +31,7 @@ const RoomsPage = () => {
             <Typography component="h1" variant="h5" align="center" gutterBottom>
               Salas
             </Typography>
-            <Box>
+            <Box display="flex" gap={1}>
               <Button
                 variant="text"
                 size="small"
@@ -49,9 +50,15 @@ const RoomsPage = () => {
               </Button>
             </Box>
           </Box>
-          <Box display="flex" flexDirection="column" gap={4}>
+          <Box display="flex" flexDirection="column" gap={2} mt={4}>
             {rooms?.length > 0 ? (
-              rooms.map((room) => <RoomCard key={room.id} room={room} />)
+              rooms.map((room) => (
+                <RoomCard
+                  key={room.id}
+                  room={room}
+                  handleEnterRoom={handleEnterRoom}
+                />
+              ))
             ) : (
               <Typography variant="body1" align="center">
                 Nenhuma sala encontrada

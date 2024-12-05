@@ -52,6 +52,18 @@ const useRoom = () => {
     }
   };
 
+  const handleEnterRoom = async (roomId: string) => {
+    try {
+      console.log({
+        roomId,
+        userId: userLogged?.id,
+      });
+    } catch (error) {
+      console.error(error);
+      fetchRooms();
+    }
+  };
+
   return {
     state,
     handleState,
@@ -59,6 +71,7 @@ const useRoom = () => {
     handleOpenCreateDialog,
     handleCloseCreateDialog,
     handleCreateRoom,
+    handleEnterRoom,
   };
 };
 
