@@ -1,16 +1,67 @@
 "use client";
 
-import React from "react";
-import { Container, Typography, Paper } from "@mui/material";
+import React, { useEffect } from "react";
+import { Container, Typography, Paper, Box, Button } from "@mui/material";
+import useRoom from "./useRoom";
+import RoomCard from "@/components/RoomCard";
+import CreateRoomDialog from "@/components/CreateRoomDialog";
 
 const RoomsPage = () => {
+  const {
+    state: { rooms, madeInitialFetch, isOpenCreateDialog },
+    fetchRooms,
+    handleOpenCreateDialog,
+    handleCloseCreateDialog,
+    handleCreateRoom,
+  } = useRoom();
+
+  useEffect(() => {
+    if (!madeInitialFetch) {
+      fetchRooms();
+    }
+  }, [madeInitialFetch, fetchRooms]);
+
   return (
     <Container component="main" maxWidth="xs" sx={{ mt: 8 }}>
       <Paper elevation={3} sx={{ p: 4, borderRadius: 2 }}>
-        <Typography component="h1" variant="h5" align="center" gutterBottom>
-          Salas
-        </Typography>
+        <Box display="flex" justifyContent="space-between">
+          <Typography component="h1" variant="h5" align="center" gutterBottom>
+            Salas
+          </Typography>
+          <Box>
+            <Button
+              variant="text"
+              size="small"
+              color="primary"
+              onClick={fetchRooms}
+            >
+              Atualizar salas
+            </Button>
+            <Button
+              variant="contained"
+              size="small"
+              color="primary"
+              onClick={handleOpenCreateDialog}
+            >
+              Criar sala
+            </Button>
+          </Box>
+        </Box>
+        <Box display="flex" flexDirection="column" gap={4}>
+          {rooms?.length > 0 ? (
+            rooms.map((room) => <RoomCard key={room.id} room={room} />)
+          ) : (
+            <Typography variant="body1" align="center">
+              Nenhuma sala encontrada
+            </Typography>
+          )}
+        </Box>
       </Paper>
+      <CreateRoomDialog
+        isOpen={isOpenCreateDialog}
+        onClose={handleCloseCreateDialog}
+        onSubmit={handleCreateRoom}
+      />
     </Container>
   );
 };
