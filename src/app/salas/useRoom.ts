@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react";
 import { RoomState } from "./types";
 import HttpClient from "@/utils/httpClient";
-import useAuthContext from "@/contexts/authContext";
+import useAuth from "@/contexts/authContext";
 
 const initialState: RoomState = {
   rooms: [],
@@ -14,7 +14,7 @@ const httpClient = new HttpClient();
 const useRoom = () => {
   const {
     state: { userLogged },
-  } = useAuthContext();
+  } = useAuth();
   const [state, setState] = useState<RoomState>(initialState);
 
   const handleState = (changes: Partial<RoomState>) =>
